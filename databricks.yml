@@ -1,0 +1,65 @@
+###########################################################################################
+# THIS IS THE MAIN DATABRICKS ASSET BUNDLE CONFIGURATION FOR THE PROJECT                  
+###########################################################################################
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.         #
+###########################################################################################
+
+
+################################################################################
+# Bundle name  
+# - The bundle mapping is required and must include a bundle name.
+################################################################################
+bundle:                   # Required
+  name: demo01_bundle     # Required
+
+# The target_catalog and raw_data_path variables will be used when deploying to our development and production environments. These will populate the job parameters' values based on the environment.
+
+
+############################################################################
+# RESOURCES
+# - These are the default job and pipeline settings (currently only a job).
+# TO DO: Paste YOUR job YAML configuration obtained from the previous steps below.
+############################################################################
+resources:
+  jobs:
+    gitdabjob:
+      name: gitdabjob
+      tasks:
+        - task_key: create_bronze_table
+          notebook_task:
+            notebook_path: /Workspace/Users/ravi.gupta@impetus.com/dab-demo/src/create_bronze_table
+            source: WORKSPACE
+          existing_cluster_id: 0717-093142-2is9ustv
+        - task_key: create_silver_table
+          depends_on:
+            - task_key: create_bronze_table
+          notebook_task:
+            notebook_path: /Workspace/Users/ravi.gupta@impetus.com/dab-demo/src/create_silver_table
+            source: WORKSPACE
+          existing_cluster_id: 0717-093142-2is9ustv
+      queue:
+        enabled: true
+      parameters:
+        - name: catalog_name
+          default: git_1_dev
+        - name: display_target
+          default: development
+
+##############################################################################################
+# TARGET DEPLOYMENT ENVIRONMENTS
+# - These are the targets to use for deployments and workflow runs. 
+# - One and only one of these targets can be set to "default: true".
+# - In this example, we will deploy using the development catalog only.
+##############################################################################################
+targets:
+
+  development:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources in development mode get prefixed with '[dev my_user_name]'
+    mode: development
+    default: true
+    workspace:
+      # Host can be modified based on where you want to deploy. By default, it will use the current host. Leave commented out.
+      # host: https://dbc-5c8bc4a5-351e.cloud.databricks.com/
+      # We explicitly specify /Workspace/Users/username to ensure we only have a single copy.
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
