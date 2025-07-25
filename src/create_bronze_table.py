@@ -19,3 +19,7 @@ FROM read_files(
   header => true
 )
 ''')
+
+# COMMAND ----------
+
+print ('this is bronze table')

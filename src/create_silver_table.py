@@ -15,3 +15,7 @@ CREATE OR REPLACE TABLE {my_catalog}.default.silver_health_1 AS
 SELECT * 
 FROM {my_catalog}.default.Bronze_health_1
 """)
+
+# COMMAND ----------
+
+print ('this is silver table')
