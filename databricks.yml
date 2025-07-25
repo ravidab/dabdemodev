@@ -22,26 +22,26 @@ bundle:                   # Required
 ############################################################################
 resources:
   jobs:
-    gitdabjob:
-      name: gitdabjob
+    gitdemojob:
+      name: gitdemojob
       tasks:
         - task_key: create_bronze_table
           notebook_task:
-            notebook_path: /Workspace/Users/ravi.gupta@impetus.com/dab-demo/src/create_bronze_table
+            notebook_path: /Workspace/Users/ravi.gupta@impetus.com/dabdemodev/src/create_bronze_table
             source: WORKSPACE
           existing_cluster_id: 0717-093142-2is9ustv
         - task_key: create_silver_table
           depends_on:
             - task_key: create_bronze_table
           notebook_task:
-            notebook_path: /Workspace/Users/ravi.gupta@impetus.com/dab-demo/src/create_silver_table
+            notebook_path: /Workspace/Users/ravi.gupta@impetus.com/dabdemodev/src/create_silver_table
             source: WORKSPACE
           existing_cluster_id: 0717-093142-2is9ustv
       queue:
         enabled: true
       parameters:
         - name: catalog_name
-          default: git_1_dev
+          default: git_2_dev
         - name: display_target
           default: development
 
