@@ -20,4 +20,4 @@ FROM {my_catalog}.default.Bronze_health_1
 
 print ('this is silver table')
 
-print ('this is from git')
+print ('Hi, this is from git')
