@@ -25,3 +25,4 @@ FROM read_files(
 print ('this is bronze table')
 
 #Hi, this is from git
+#new line
