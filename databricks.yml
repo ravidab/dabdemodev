@@ -22,28 +22,33 @@ bundle:                   # Required
 ############################################################################
 resources:
   jobs:
-    gitdemojob:
-      name: gitdemojob
+    gitbudlejob:
+      name: gitbudlejob
       tasks:
         - task_key: create_bronze_table
           notebook_task:
-            notebook_path: /Workspace/Users/ravi.gupta@impetus.com/dabdemodev/src/create_bronze_table
-            source: WORKSPACE
+            notebook_path: src/create_bronze_table.py
+            base_parameters:
+              catalog_name: git_3_dev
+              display_target: development
+            source: GIT
           existing_cluster_id: 0717-093142-2is9ustv
         - task_key: create_silver_table
           depends_on:
             - task_key: create_bronze_table
           notebook_task:
-            notebook_path: /Workspace/Users/ravi.gupta@impetus.com/dabdemodev/src/create_silver_table
-            source: WORKSPACE
+            notebook_path: src/create_silver_table.py
+            base_parameters:
+              catalog_name: git_3_dev
+              display_target: development
+            source: GIT
           existing_cluster_id: 0717-093142-2is9ustv
+      git_source:
+        git_url: https://github.com/ravidab/dabdemodev.git
+        git_provider: gitHub
+        git_branch: dabdemodev
       queue:
         enabled: true
-      parameters:
-        - name: catalog_name
-          default: git_2_dev
-        - name: display_target
-          default: development
 
 ##############################################################################################
 # TARGET DEPLOYMENT ENVIRONMENTS
